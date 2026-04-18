@@ -43,7 +43,7 @@
 		<dependency>
 		    <groupId>org.modelmapper</groupId>
 		    <artifactId>modelmapper</artifactId>
-		    <version>${modelmapper.version}</version>
+		    <version>\${modelmapper.version}</version>
 		</dependency>
 		
 		<!-- Dependencies for TESTS -->
@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>${springdoc.version}</version>
+			<version>\${springdoc.version}</version>
 		</dependency>
 
 		<!-- Dependencies for MySQL -->
