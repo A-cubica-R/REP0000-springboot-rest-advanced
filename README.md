@@ -30,10 +30,10 @@ Variables used by this bundle:
 
 Required project variables in `telosys-tools.cfg` for this bundle:
 
-- `ProjectVariable.SPRING_BOOT_VERSION=4.0.5`
-- `ProjectVariable.JAVA_VERSION=17`
-- `ProjectVariable.MODELMAPPER_VERSION=3.2.6`
-- `ProjectVariable.SPRINGDOC_VERSION=3.0.3`
+- `ProjectVariable.SPRING_BOOT_VERSION`
+- `ProjectVariable.JAVA_VERSION`
+- `ProjectVariable.MODELMAPPER_VERSION`
+- `ProjectVariable.SPRINGDOC_VERSION`
 
 Important:
 
