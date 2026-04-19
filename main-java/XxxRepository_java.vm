@@ -9,7 +9,8 @@
 package ${target.javaPackageFromFolder(${SRC})};
 ##---------------------------------------------------------------------------------------
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import ${ROOT_PKG}.persistence.entities.${jpaEntityClass};
 #if ( $entity.hasCompositePrimaryKey() )
@@ -21,21 +22,28 @@ import $import;
 #end
 
 /**
- * Spring Data JPA repository for entity "${jpaEntityClass}" <br> 
- * 
- * This repository extends PagingAndSortingRepository interface <br>
- * so it provides by default all the basic CRUD operations : <br>
- *   findById, findAll, save, delete, etc <br> 
- * with pagination and sorting : <br>
- *   findAll(Pageable), findAll(Sort)<br>
- * 
- * This repository can be extended by adding specific "finders" methods<br>
- * To do so, see the "predicates conventions" for "derived query methods" in Spring Data documentation
- * 
- * @author Telosys
+ * Spring Data JPA repository for the ${jpaEntityClass} entity.
+ *
+ * This interface extends {@link JpaRepository}, so it automatically inherits
+ * standard persistence operations, including:
+ *   - Create/update entities: {@link JpaRepository#save(Object)} and {@link JpaRepository#saveAll(Iterable)}
+ *   - Basic queries: {@link JpaRepository#findById(Object)}, {@link JpaRepository#findAll()}, and {@link JpaRepository#getReferenceById(Object)}
+ *   - Validation and counting: {@link JpaRepository#existsById(Object)} and {@link JpaRepository#count()}
+ *   - Deletion: {@link JpaRepository#deleteById(Object)}, {@link JpaRepository#delete(Object)}, and {@link JpaRepository#deleteAll()}
+ *   - Paging and sorting: {@link org.springframework.data.repository.PagingAndSortingRepository#findAll(org.springframework.data.domain.Pageable)}
+ *     and {@link org.springframework.data.repository.PagingAndSortingRepository#findAll(org.springframework.data.domain.Sort)}
+ *
+ * It can also be extended with derived query methods (findBy...),
+ * following Spring Data JPA conventions.
+ *
+ * @see JpaRepository
+ * @see org.springframework.data.repository.CrudRepository
+ * @see org.springframework.data.repository.PagingAndSortingRepository
+ * @author a-cubica-r
  *
  */
-public interface ${jpaEntityClass}Repository extends PagingAndSortingRepository<${jpaEntityClass}, ${jpaEntityIdClass}> {
+@Repository
+public interface ${jpaEntityClass}Repository extends JpaRepository<${jpaEntityClass}, ${jpaEntityIdClass}> {
 
 	// Insert specific finders here 
 
