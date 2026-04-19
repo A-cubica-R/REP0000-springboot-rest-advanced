@@ -54,7 +54,7 @@ import $import;
 @IdClass(${jpaEntityIdClass}.class)
 #end
 @Entity
-@Table(name = "aspirante")
+@Table(name = "${entity.databaseTable}")
 @Getter
 @Setter
 @NoArgsConstructor
