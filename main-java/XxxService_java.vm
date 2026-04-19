@@ -46,6 +46,7 @@ public class ${serviceClass} extends GenericService<${jpaEntityClass}, ${entity.
 
     public ${entity.name}DTODeep create(${entity.name}DTOFlat dto) {
 #if ($entity.hasAutoIncrementedKey())
+        dto.${entity.keyAttribute.setter}(${entity.keyAttribute.initialValue});
         return entityToDto(repository.save(dtoToEntity(dto)));
 #else
         if (repository.existsById(dto.${entity.keyAttribute.getter}())) {
