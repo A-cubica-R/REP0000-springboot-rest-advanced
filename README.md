@@ -45,7 +45,7 @@ Suggested `telosys-tools.cfg` reference block:
 ProjectVariable.MAVEN_ARTIFACT_ID=artifact-to-be-defined
 ProjectVariable.MAVEN_GROUP_ID=group.to.be.defined
 ProjectVariable.PROJECT_NAME=myproject
-ProjectVariable.PROJECT_VERSION=0.1
+ProjectVariable.PROJECT_VERSION=0.0.0
 # REST backend configuration
 ProjectVariable.REST_SERVER_PORT=8090
 ProjectVariable.REST_API_ROOT=/api/v1
@@ -53,11 +53,12 @@ ProjectVariable.REST_URL_ROOT=http://localhost:8090
 # Database configuration (MySQL)
 ProjectVariable.DB_HOST=localhost
 ProjectVariable.DB_PORT=3306
-ProjectVariable.DB_NAME=postgrados
-ProjectVariable.DB_SCHEMA=postgrados
-ProjectVariable.DB_JDBC_URL=jdbc:mysql://localhost:3306/postgrados?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+ProjectVariable.DB_NAME=database
+ProjectVariable.DB_SCHEMA=database
+ProjectVariable.DB_JDBC_URL=jdbc:mysql://localhost:3306/
+allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
 ProjectVariable.DB_USER=root
-ProjectVariable.DB_PASSWORD=12345678
+ProjectVariable.DB_PASSWORD=1234
 ProjectVariable.DB_JDBC_DRIVER_CLASS=com.mysql.cj.jdbc.Driver
 ProjectVariable.DB_JPA_DIALECT=org.hibernate.dialect.MySQLDialect
 # Security configuration
