@@ -9,27 +9,36 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>$fn.get("SPRING_BOOT_VERSION","4.0.5")</version>
+		<version>$fn.get("SPRING_BOOT_VERSION","?")</version>
 		<relativePath /><!-- lookup parent from repository -->
 	</parent>
 	
-	<groupId>$fn.get("MAVEN_GROUP_ID","to.be.defined")</groupId>
-	<artifactId>$fn.get("MAVEN_ARTIFACT_ID","to.be.defined")</artifactId>
-	<version>$fn.get("PROJECT_VERSION","1.0.0")</version>
+	<groupId>$fn.get("MAVEN_GROUP_ID","?")</groupId>
+	<artifactId>$fn.get("MAVEN_ARTIFACT_ID","?")</artifactId>
+	<version>$fn.get("PROJECT_VERSION","?")</version>
+	<name>$fn.get("PROJECT_NAME","?")</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>$fn.get("JAVA_VERSION","24")</java.version>
-		<modelmapper.version>$fn.get("MODELMAPPER_VERSION","3.2.6")</modelmapper.version>
-		<springdoc.version>$fn.get("SPRINGDOC_VERSION","3.0.3")</springdoc.version>
+		<java.version>$fn.get("JAVA_VERSION","?")</java.version>
+		<modelmapper.version>$fn.get("MODELMAPPER_VERSION","?")</modelmapper.version>
+		<springdoc.version>$fn.get("SPRINGDOC_VERSION","?")</springdoc.version>
 	</properties>
 
 	<dependencies>
 
-		<!-- Dependencies for SpringBoot -->
+		<!-- Dependencies for SPRINGBOOT -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -40,10 +49,18 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
+		<!-- Dependencies for LOMBOK -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Dependencies for MODELMAPPER -->
 		<dependency>
 		    <groupId>org.modelmapper</groupId>
 		    <artifactId>modelmapper</artifactId>
-		    <version>\${modelmapper.version}</version>
+		    <version>#[[${modelmapper.version}]]#</version>
 		</dependency>
 		
 		<!-- Dependencies for TESTS -->
@@ -53,18 +70,18 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Dependencies for H2 Database -->
+		<!-- Dependencies for H2 DATABASE -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Dependencies for Swagger UI -->
+		<!-- Dependencies for SWAGGER UI -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>\${springdoc.version}</version>
+			<version>#[[${springdoc.version}]]#</version>
 		</dependency>
 
 		<!-- Dependencies for MySQL -->
@@ -79,13 +96,30 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<parameters>true</parameters>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 		</plugins>
-
 	</build>
-
 </project>
