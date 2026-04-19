@@ -7,6 +7,17 @@
 #parse("include/init_var_entity.vm")
 #parse("include/java_header.vm")
 ##---------------------------------------------------------------------------------------
+#set($flatAttributes = [])
+#foreach( $attribute in $entity.keyAttributes )
+#set( $_ = $flatAttributes.add($attribute) )
+#end
+#foreach( $attribute in $entity.nonKeyAttributes )
+#set( $t = $attribute.type )
+#if( $t == "boolean" || $t == "byte" || $t == "short" || $t == "int" || $t == "long" || $t == "float" || $t == "double" || $t == "char" || $t == "Boolean" || $t == "Byte" || $t == "Short" || $t == "Integer" || $t == "Long" || $t == "Float" || $t == "Double" || $t == "Character" || $t == "String" || $t == "BigDecimal" || $t == "BigInteger" || $t == "LocalDate" || $t == "LocalDateTime" || $t == "LocalTime" || $t == "OffsetDateTime" || $t == "ZonedDateTime" || $t == "Instant" || $t == "Date" || $t == "Timestamp" || $t == "Time" || $t == "UUID" )
+#set( $_ = $flatAttributes.add($attribute) )
+#end
+#end
+##---------------------------------------------------------------------------------------
 package ${target.javaPackageFromFolder(${SRC})};
 
 import ${ROOT_PKG}.rest.dto.generic.GenericDTO;
@@ -14,7 +25,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-#foreach( $import in $java.imports($entity) )
+#foreach( $import in $java.imports($flatAttributes) )
 import $import;
 #end
 
