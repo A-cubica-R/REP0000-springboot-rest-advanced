@@ -28,17 +28,45 @@ Variables used by this bundle:
 - Project variables used in `main-resources/application_properties.vm`: `REST_SERVER_PORT`, `PROJECT_NAME`, `DB_JDBC_DRIVER_CLASS`, `DB_JDBC_URL`, `DB_USER`, `DB_PASSWORD`, `DB_JPA_DIALECT`, `REST_API_ROOT`, `SECURITY_USER`, `SECURITY_PASSWORD`.
 - Project variables used in Java templates: `REST_API_ROOT` (in `main-java/XxxRestController_java.vm`).
 
-Used variables not found in the provided `telosys-tools.cfg`:
-
-- `SPRING_BOOT_VERSION`
-- `JAVA_VERSION`
-- `MODELMAPPER_VERSION`
-- `SPRINGDOC_VERSION`
-
-Suggested entries to add in `telosys-tools.cfg`:
+Required project variables in `telosys-tools.cfg` for this bundle:
 
 - `ProjectVariable.SPRING_BOOT_VERSION=4.0.5`
 - `ProjectVariable.JAVA_VERSION=17`
 - `ProjectVariable.MODELMAPPER_VERSION=3.2.6`
 - `ProjectVariable.SPRINGDOC_VERSION=3.0.3`
+
+Important:
+
+- To use this bundle correctly, these variables must be present in your `telosys-tools.cfg` file.
+
+Suggested `telosys-tools.cfg` reference block:
+
+```properties
+ProjectVariable.MAVEN_ARTIFACT_ID=artifact-to-be-defined
+ProjectVariable.MAVEN_GROUP_ID=group.to.be.defined
+ProjectVariable.PROJECT_NAME=myproject
+ProjectVariable.PROJECT_VERSION=0.1
+# REST backend configuration
+ProjectVariable.REST_SERVER_PORT=8090
+ProjectVariable.REST_API_ROOT=/api/v1
+ProjectVariable.REST_URL_ROOT=http://localhost:8090
+# Database configuration (MySQL)
+ProjectVariable.DB_HOST=localhost
+ProjectVariable.DB_PORT=3306
+ProjectVariable.DB_NAME=postgrados
+ProjectVariable.DB_SCHEMA=postgrados
+ProjectVariable.DB_JDBC_URL=jdbc:mysql://localhost:3306/postgrados?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+ProjectVariable.DB_USER=root
+ProjectVariable.DB_PASSWORD=12345678
+ProjectVariable.DB_JDBC_DRIVER_CLASS=com.mysql.cj.jdbc.Driver
+ProjectVariable.DB_JPA_DIALECT=org.hibernate.dialect.MySQLDialect
+# Security configuration
+ProjectVariable.SECURITY_USER=admin
+ProjectVariable.SECURITY_PASSWORD=1234
+
+ProjectVariable.SPRING_BOOT_VERSION=4.0.5
+ProjectVariable.JAVA_VERSION=17
+ProjectVariable.MODELMAPPER_VERSION=3.2.6
+ProjectVariable.SPRINGDOC_VERSION=3.0.3
+```
    

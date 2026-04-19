@@ -9,20 +9,20 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>$fn.get("SPRING_BOOT_VERSION","4.0.5")</version>
+		<version>$fn.get("SPRING_BOOT_VERSION","?")</version>
 		<relativePath /><!-- lookup parent from repository -->
 	</parent>
 	
-	<groupId>$fn.get("MAVEN_GROUP_ID","to.be.defined")</groupId>
-	<artifactId>$fn.get("MAVEN_ARTIFACT_ID","to.be.defined")</artifactId>
-	<version>$fn.get("PROJECT_VERSION","1.0.0")</version>
-	<name>$fn.get("PROJECT_NAME","project")</name>
+	<groupId>$fn.get("MAVEN_GROUP_ID","?")</groupId>
+	<artifactId>$fn.get("MAVEN_ARTIFACT_ID","?")</artifactId>
+	<version>$fn.get("PROJECT_VERSION","?")</version>
+	<name>$fn.get("PROJECT_NAME","?")</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>$fn.get("JAVA_VERSION","24")</java.version>
-		<modelmapper.version>$fn.get("MODELMAPPER_VERSION","3.2.6")</modelmapper.version>
-		<springdoc.version>$fn.get("SPRINGDOC_VERSION","3.0.3")</springdoc.version>
+		<java.version>$fn.get("JAVA_VERSION","?")</java.version>
+		<modelmapper.version>$fn.get("MODELMAPPER_VERSION","?")</modelmapper.version>
+		<springdoc.version>$fn.get("SPRINGDOC_VERSION","?")</springdoc.version>
 	</properties>
 
 	<dependencies>

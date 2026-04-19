@@ -1,19 +1,19 @@
 #--- server config
-server.port=$fn.get("REST_SERVER_PORT","")
+server.port=$fn.get("REST_SERVER_PORT","?")
 
 #--- spring config
-spring.application.name=$fn.get("PROJECT_NAME","")
+spring.application.name=$fn.get("PROJECT_NAME","?")
 #spring.profiles.active=default
 #spring.main.banner-mode=off
 
 # Configure your datasource here:
-spring.datasource.driver-class-name=$fn.get("DB_JDBC_DRIVER_CLASS","")
-spring.datasource.url=$fn.get("DB_JDBC_URL","")
-spring.datasource.username=$fn.get("DB_USER","")
-spring.datasource.password=$fn.get("DB_PASSWORD","")
+spring.datasource.driver-class-name=$fn.get("DB_JDBC_DRIVER_CLASS","?")
+spring.datasource.url=$fn.get("DB_JDBC_URL","?")
+spring.datasource.username=$fn.get("DB_USER","?")
+spring.datasource.password=$fn.get("DB_PASSWORD","?")
 
 # Configure JPA/Hibernate here:
-spring.jpa.database-platform=$fn.get("DB_JPA_DIALECT","")
+spring.jpa.database-platform=$fn.get("DB_JPA_DIALECT","?")
 spring.jpa.hibernate.ddl-auto=none
 spring.jpa.show-sql=true
 spring.jpa.open-in-view=false
@@ -27,11 +27,11 @@ logging.level.${ROOT_PKG}=DEBUG
 #logging.level.${ROOT_PKG}.rest.services=DEBUG
 
 #--- application config
-rest.api-root=$fn.get("REST_API_ROOT","")
+rest.api-root=$fn.get("REST_API_ROOT","?")
 
 #--- default basic security user (for spring-boot-starter-security)
-spring.security.user.name=$fn.get("SECURITY_USER","")
-spring.security.user.password=$fn.get("SECURITY_PASSWORD","")
+spring.security.user.name=$fn.get("SECURITY_USER","?")
+spring.security.user.password=$fn.get("SECURITY_PASSWORD","?")
 
 #--- springdoc-openapi (Swagger/OpenAPI)
 springdoc.api-docs.enabled=true
