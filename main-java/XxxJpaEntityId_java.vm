@@ -24,7 +24,7 @@ import $import;
  */
 ## @Embeddable
 @Entity
-@Table(name = "aspirante")
+@Table(name = "${entity.databaseTable}")
 @Getter
 @Setter
 @NoArgsConstructor
