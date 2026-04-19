@@ -5,6 +5,12 @@
 package ${target.javaPackageFromFolder($SRC)};
 
 import java.io.Serializable;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 #foreach( $import in $java.imports($entity.keyAttributes) )
 import $import;
@@ -17,6 +23,13 @@ import $import;
  *
  */
 ## @Embeddable
+@Entity
+@Table(name = "aspirante")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class $jpaEntityIdClass implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,49 +40,10 @@ public class $jpaEntityIdClass implements Serializable {
     private $field.formattedType(10) $field.name ;
     
 #end
-    /**
-     * Constructor
-     */
-    public $jpaEntityIdClass() {
-        super();
-    }
-
-    /**
-     * Constructor with values
-#foreach( $field in $entity.keyAttributes )
-     * @param $field.name 
-#end
-     */
-    public ${jpaEntityIdClass}( $fn.argumentsListWithWrapperType($entity.keyAttributes) ) {
-        super();
-#foreach( $field in $entity.keyAttributes )
-        this.$field.name = $field.name ;
-#end
-    }
-    
-    //--- GETTERS & SETTERS FOR KEY FIELDS
-#foreach( $field in $entity.keyAttributes )
-#if ( $field.databaseName ) 
-#end
-#if ( $field.setter )    public void ${field.setter}( $field.type value ) {
-        this.$field.name = value;
-    }
-#end
-#if ( $field.getter )    public $field.type ${field.getter}() {
-        return this.$field.name;
-    }
-#end
-
-#end  
-
 	@Override
 $java.equalsMethod($jpaEntityIdClass, $entity.keyAttributes )## no EOL
 
 	@Override
 $java.hashCodeMethod($jpaEntityIdClass, $entity.keyAttributes )## no EOL
-
-	@Override
-## This function generates a 'toString' method with indentation level = 1 (1 tab)
-$java.toStringMethod($entity, $entity.keyAttributes, 1)
 
 }

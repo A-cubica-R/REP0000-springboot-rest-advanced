@@ -33,10 +33,13 @@ $generator.generate($target.entityName ,  "${jpaEntityIdClass}.java", $target.fo
 #end
 
 import java.io.Serializable;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 #foreach( $import in $java.imports($entity) )
-import $import;
-#end
-#foreach( $import in $jpa.imports($entity) )
 import $import;
 #end
 
@@ -46,11 +49,17 @@ import $import;
  * @author Telosys
  *
  */
-$jpa.entityAnnotations(0, $entity)
 ## IF ENTITY HAS A COMPOSITE PRIMARY KEY => DECLARE 'ID CLASS' FOR THIS PRIMARY KEY
 #if ( $entity.hasCompositePrimaryKey() )  
 @IdClass(${jpaEntityIdClass}.class)
 #end
+@Entity
+@Table(name = "aspirante")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ${entity.name} implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -84,39 +93,4 @@ $jpa.linkAnnotations(4, $link, $entity.attributes)
 
 #end
 #end
-    /**
-     * Constructor
-     */
-    public ${entity.name}() {
-		super();
-    }
-    
-#foreach( $attribute in $entity.keyAttributes )
-    public void ${attribute.setter}( $attribute.type $attribute.name ) {
-        this.$attribute.name = $attribute.name ;
-    }
-    public $attribute.type ${attribute.getter}() {
-        return this.$attribute.name;
-    }
-
-#end
-#foreach( $attribute in $entity.nonKeyAttributes )
-    public void ${attribute.setter}( $attribute.type $attribute.name ) {
-        this.$attribute.name = $attribute.name ;
-    }
-    public $attribute.type ${attribute.getter}() {
-        return this.$attribute.name;
-    }
-
-#end
-#foreach( $link in $entity.selectedLinks )
-    public ${link.formattedFieldType(0)} ${link.getter}() {
-        return this.${link.formattedFieldName(0)};
-    } 
-
-#end
-	@Override
-## This function generates a 'toString' method with indentation level = 1 (1 tab)
-$java.toStringMethod($entity, 1)
-
 }
