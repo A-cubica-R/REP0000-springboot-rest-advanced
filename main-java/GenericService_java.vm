@@ -1,90 +1,65 @@
 #parse("include/java_header.vm")
 ##---------------------------------------------------------------------------------------
 package ${target.javaPackageFromFolder(${SRC})};
-## package org.demo.myapp.rest.services.commons;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Abstract class for REST services <br>
- * 
+ *
  * @author Telosys
  *
  * @param <ENTITY>
- * @param <DTO>
+ * @param <FLAT_DTO>  DTO de entrada con campos primitivos solamente
+ * @param <DEEP_DTO>  DTO de salida con objetos y colecciones relacionadas
  */
-public abstract class GenericService<ENTITY, DTO> {
+public abstract class GenericService<ENTITY, FLAT_DTO, DEEP_DTO> {
 
-	private final ModelMapper mapper = new ModelMapper();
+    @Autowired
+    protected ModelMapper mapper;
 
-	private final Class<ENTITY> entityClass;
-	private final Class<DTO> dtoClass;
+    private final Class<ENTITY> entityClass;
+    private final Class<FLAT_DTO> flatDtoClass;
+    private final Class<DEEP_DTO> deepDtoClass;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param entityClass
-	 * @param dtoClass
-	 */
-	protected GenericService(Class<ENTITY> entityClass, Class<DTO> dtoClass) {
-		super();
-		this.entityClass = entityClass;
-		this.dtoClass = dtoClass;
-	}
+    protected GenericService(Class<ENTITY> entityClass, Class<FLAT_DTO> flatDtoClass, Class<DEEP_DTO> deepDtoClass) {
+        this.entityClass  = entityClass;
+        this.flatDtoClass = flatDtoClass;
+        this.deepDtoClass = deepDtoClass;
+    }
 
-	/**
-	 * Converts DTO to JPA ENTITY
-	 * 
-	 * @param dto
-	 * @return
-	 */
-	protected ENTITY dtoToEntity(DTO dto) {
-		return mapper.map(dto, entityClass);
-		// return BookMapper.getInstance().dtoToEntity(dto);
-	}
+    /**
+     * Converts FlatDTO to JPA ENTITY
+     */
+    protected ENTITY dtoToEntity(FLAT_DTO dto) {
+        return mapper.map(dto, entityClass);
+    }
 
-	/**
-	 * Converts JPA ENTITY to DTO
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	protected DTO entityToDto(ENTITY entity) {
-		return mapper.map(entity, dtoClass);
-		// return BookMapper.getInstance().entityToDto(entity);
-	}
+    /**
+     * Converts JPA ENTITY to DeepDTO
+     */
+    protected DEEP_DTO entityToDto(ENTITY entity) {
+        return mapper.map(entity, deepDtoClass);
+    }
 
-	/**
-	 * Converts an Optional JPA ENTITY to DTO
-	 * 
-	 * @param optionalEntity
-	 * @return the DTO or null if nothing in optional
-	 */
-	protected DTO entityToDto(Optional<ENTITY> optionalEntity) {
-		if (optionalEntity.isPresent()) {
-			return entityToDto(optionalEntity.get());
-		} else {
-			return null;
-		}
-	}
+    /**
+     * Converts an Optional JPA ENTITY to DeepDTO
+     */
+    protected DEEP_DTO entityToDto(Optional<ENTITY> optionalEntity) {
+        return optionalEntity.map(this::entityToDto).orElse(null);
+    }
 
-	/**
-	 * Converts a collection of JPA ENTITIES to a collection of DTO
-	 * 
-	 * @param entities
-	 * @return
-	 */
-	protected List<DTO> entityListToDtoList(Iterable<ENTITY> entities) {
-		List<DTO> dtoList = new LinkedList<>();
-		if (entities != null) {
-			for (ENTITY e : entities) {
-				dtoList.add(entityToDto(e));
-			}
-		}
-		return dtoList;
-	}
+    /**
+     * Converts a collection of JPA ENTITIES to a list of DeepDTO
+     */
+    protected List<DEEP_DTO> entityListToDtoList(Iterable<ENTITY> entities) {
+        return StreamSupport.stream(entities.spliterator(), false)
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
+    }
 }
