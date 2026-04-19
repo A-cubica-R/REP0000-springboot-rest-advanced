@@ -5,8 +5,8 @@
 #else
 #set($jpaEntityIdClass= $entity.keyAttribute.wrapperType )
 #end
-#set($dtoDeepClass    = "${entity.name}DeepDTO" )
-#set($dtoFlatClass    = "${entity.name}FlatDTO" )
+#set($dtoDeepClass    = "${entity.name}DTODeep" )
+#set($dtoFlatClass    = "${entity.name}DTOFlat" )
 #set($repositoryClass = "${entity.name}Repository" )
 #set($serviceClass    = "${entity.name}Service" )
 #set($controllerClass = "${entity.name}RestController" )
