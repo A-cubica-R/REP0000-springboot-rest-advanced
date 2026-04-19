@@ -8,7 +8,7 @@
 #parse("include/java_header.vm")
 ##---------------------------------------------------------------------------------------
 #macro( dtoType $link )
-$link.fieldType.replace($link.targetEntitySimpleType, "${link.targetEntitySimpleType}FlatDTO")#end
+$link.fieldType.replace($link.targetEntitySimpleType, "${link.targetEntitySimpleType}DTOFlat")#end
 ##---------------------------------------------------------------------------------------
 package ${target.javaPackageFromFolder(${SRC})};
 
@@ -17,6 +17,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+#set($flatDtoImports = [])
+#foreach( $link in $entity.links )
+#set($flatDtoImport = "${ROOT_PKG}.rest.dto.flat.${link.targetEntitySimpleType}DTOFlat")
+#if( !$flatDtoImports.contains($flatDtoImport) )
+#set( $_ = $flatDtoImports.add($flatDtoImport) )
+#end
+#end
+#foreach( $flatDtoImport in $flatDtoImports )
+import $flatDtoImport;
+#end
 #foreach( $import in $java.imports($entity) )
 import $import;
 #end
@@ -33,8 +43,8 @@ import $import;
  *   <li>Include all primary key attributes.</li>
  *   <li>Include scalar/simple non-key attributes (same base values used by Flat DTOs).</li>
  *   <li>Include relationship fields (links), but map them exclusively to
- *       #[[{@code *FlatDTO}]]# types (single references and collections).</li>
- *   <li>Do not embed #[[{@code *DeepDTO}]]# inside #[[{@code *DeepDTO}]]#; nested deep graphs are forbidden.</li>
+ *       #[[{@code *DTOFlat}]]# types (single references and collections).</li>
+ *   <li>Do not embed #[[{@code *DTODeep}]]# inside #[[{@code *DTODeep}]]#; nested deep graphs are forbidden.</li>
  * </ul>
  *
  * Why this design:
