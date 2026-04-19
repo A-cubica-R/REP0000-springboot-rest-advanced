@@ -20,4 +20,25 @@ Versions and compatibility:
 - The base Spring Boot version is defined in [pom_xml.vm](pom_xml.vm) through `SPRING_BOOT_VERSION`.
 - `ModelMapper` and `springdoc-openapi` are also controlled from template properties in [pom_xml.vm](pom_xml.vm).
 - Dependencies such as MySQL may not declare a version because it is managed by the Spring Boot parent.
+
+Variables used by this bundle:
+
+- Standard Telosys variables: `SRC`, `RES`, `TEST_SRC`, `TEST_RES`, `ROOT_PKG`, `BEANNAME`.
+- Project variables used in `pom_xml.vm`: `MAVEN_GROUP_ID`, `MAVEN_ARTIFACT_ID`, `PROJECT_VERSION`, `PROJECT_NAME`, `SPRING_BOOT_VERSION`, `JAVA_VERSION`, `MODELMAPPER_VERSION`, `SPRINGDOC_VERSION`.
+- Project variables used in `main-resources/application_properties.vm`: `REST_SERVER_PORT`, `PROJECT_NAME`, `DB_JDBC_DRIVER_CLASS`, `DB_JDBC_URL`, `DB_USER`, `DB_PASSWORD`, `DB_JPA_DIALECT`, `REST_API_ROOT`, `SECURITY_USER`, `SECURITY_PASSWORD`.
+- Project variables used in Java templates: `REST_API_ROOT` (in `main-java/XxxRestController_java.vm`).
+
+Used variables not found in the provided `telosys-tools.cfg`:
+
+- `SPRING_BOOT_VERSION`
+- `JAVA_VERSION`
+- `MODELMAPPER_VERSION`
+- `SPRINGDOC_VERSION`
+
+Suggested entries to add in `telosys-tools.cfg`:
+
+- `ProjectVariable.SPRING_BOOT_VERSION=4.0.5`
+- `ProjectVariable.JAVA_VERSION=17`
+- `ProjectVariable.MODELMAPPER_VERSION=3.2.6`
+- `ProjectVariable.SPRINGDOC_VERSION=3.0.3`
    
