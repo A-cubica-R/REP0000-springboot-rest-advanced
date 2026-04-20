@@ -15,6 +15,7 @@ import $import;
 #end
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ${ROOT_PKG}.persistence.entities.${jpaEntityClass};
 import ${ROOT_PKG}.persistence.repositories.${repositoryClass};
 import ${ROOT_PKG}.rest.dto.flat.${entity.name}DTOFlat;
@@ -27,6 +28,7 @@ import ${ROOT_PKG}.rest.services.commons.GenericService;
  * @author Telosys
  */
 @Service
+@Transactional
 public class ${serviceClass} extends GenericService<${jpaEntityClass}, ${entity.name}DTOFlat, ${entity.name}DTODeep> {
 
     @Autowired
@@ -36,16 +38,19 @@ public class ${serviceClass} extends GenericService<${jpaEntityClass}, ${entity.
         super(${jpaEntityClass}.class, ${entity.name}DTOFlat.class, ${entity.name}DTODeep.class);
     }
 
+    @Transactional(readOnly = true)
     public List<${entity.name}DTODeep> findAll() {
         return entityListToDtoList(repository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public ${entity.name}DTODeep findById(${entity.keyAttribute.type} ${entity.keyAttribute.name}) {
         return entityToDto(repository.findById(${entity.keyAttribute.name}));
     }
 
     public ${entity.name}DTODeep create(${entity.name}DTOFlat dto) {
 #if ($entity.hasAutoIncrementedKey())
+        dto.${entity.keyAttribute.setter}(${entity.keyAttribute.initialValue});
         return entityToDto(repository.save(dtoToEntity(dto)));
 #else
         if (repository.existsById(dto.${entity.keyAttribute.getter}())) {

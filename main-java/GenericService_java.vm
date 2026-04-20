@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Abstract class for REST services <br>
@@ -43,6 +44,7 @@ public abstract class GenericService<ENTITY, FLAT_DTO, DEEP_DTO> {
     /**
      * Converts JPA ENTITY to DeepDTO
      */
+    @Transactional(readOnly = true)
     protected DEEP_DTO entityToDto(ENTITY entity) {
         return mapper.map(entity, deepDtoClass);
     }
@@ -50,6 +52,7 @@ public abstract class GenericService<ENTITY, FLAT_DTO, DEEP_DTO> {
     /**
      * Converts an Optional JPA ENTITY to DeepDTO
      */
+    @Transactional(readOnly = true)
     protected DEEP_DTO entityToDto(Optional<ENTITY> optionalEntity) {
         return optionalEntity.map(this::entityToDto).orElse(null);
     }
@@ -57,6 +60,7 @@ public abstract class GenericService<ENTITY, FLAT_DTO, DEEP_DTO> {
     /**
      * Converts a collection of JPA ENTITIES to a list of DeepDTO
      */
+    @Transactional(readOnly = true)
     protected List<DEEP_DTO> entityListToDtoList(Iterable<ENTITY> entities) {
         return StreamSupport.stream(entities.spliterator(), false)
                 .map(this::entityToDto)
