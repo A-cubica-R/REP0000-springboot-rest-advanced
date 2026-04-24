@@ -18,8 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ${ROOT_PKG}.persistence.entities.${jpaEntityClass};
 import ${ROOT_PKG}.persistence.repositories.${repositoryClass};
-import ${ROOT_PKG}.rest.dto.flat.${entity.name}DTOFlat;
-import ${ROOT_PKG}.rest.dto.deep.${entity.name}DTODeep;
+import ${ROOT_PKG}.rest.dto.${dtoClass};
 import ${ROOT_PKG}.rest.services.commons.GenericService;
 
 /**
@@ -29,26 +28,26 @@ import ${ROOT_PKG}.rest.services.commons.GenericService;
  */
 @Service
 @Transactional
-public class ${serviceClass} extends GenericService<${jpaEntityClass}, ${entity.name}DTOFlat, ${entity.name}DTODeep> {
+public class ${serviceClass} extends GenericService<${jpaEntityClass}, ${dtoClass}> {
 
     @Autowired
     private ${repositoryClass} repository;
 
     public ${serviceClass}() {
-        super(${jpaEntityClass}.class, ${entity.name}DTOFlat.class, ${entity.name}DTODeep.class);
+        super(${jpaEntityClass}.class, ${dtoClass}.class);
     }
 
     @Transactional(readOnly = true)
-    public List<${entity.name}DTODeep> findAll() {
+    public List<${dtoClass}> findAll() {
         return entityListToDtoList(repository.findAll());
     }
 
     @Transactional(readOnly = true)
-    public ${entity.name}DTODeep findById(${entity.keyAttribute.type} ${entity.keyAttribute.name}) {
+    public ${dtoClass} findById(${entity.keyAttribute.type} ${entity.keyAttribute.name}) {
         return entityToDto(repository.findById(${entity.keyAttribute.name}));
     }
 
-    public ${entity.name}DTODeep create(${entity.name}DTOFlat dto) {
+    public ${dtoClass} create(${dtoClass} dto) {
 #if ($entity.hasAutoIncrementedKey())
         return entityToDto(repository.save(dtoToEntity(dto)));
 #else
@@ -59,7 +58,7 @@ public class ${serviceClass} extends GenericService<${jpaEntityClass}, ${entity.
 #end
     }
 
-    public ${entity.name}DTODeep update(${entity.keyAttribute.type} ${entity.keyAttribute.name}, ${entity.name}DTOFlat dto) {
+    public ${dtoClass} update(${entity.keyAttribute.type} ${entity.keyAttribute.name}, ${dtoClass} dto) {
         repository.findById(${entity.keyAttribute.name})
                 .orElseThrow(() -> new RuntimeException("${entity.name} no encontrado con id: " + ${entity.keyAttribute.name}));
         dto.${entity.keyAttribute.setter}(${entity.keyAttribute.name});

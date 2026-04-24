@@ -16,52 +16,49 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Telosys
  *
  * @param <ENTITY>
- * @param <FLAT_DTO>  DTO de entrada con campos primitivos solamente
- * @param <DEEP_DTO>  DTO de salida con objetos y colecciones relacionadas
+ * @param <DTO>
  */
-public abstract class GenericService<ENTITY, FLAT_DTO, DEEP_DTO> {
+public abstract class GenericService<ENTITY, DTO> {
 
     @Autowired
     protected ModelMapper mapper;
 
     private final Class<ENTITY> entityClass;
-    private final Class<FLAT_DTO> flatDtoClass;
-    private final Class<DEEP_DTO> deepDtoClass;
+    private final Class<DTO> dtoClass;
 
-    protected GenericService(Class<ENTITY> entityClass, Class<FLAT_DTO> flatDtoClass, Class<DEEP_DTO> deepDtoClass) {
+    protected GenericService(Class<ENTITY> entityClass, Class<DTO> dtoClass) {
         this.entityClass  = entityClass;
-        this.flatDtoClass = flatDtoClass;
-        this.deepDtoClass = deepDtoClass;
+        this.dtoClass = dtoClass;
     }
 
     /**
-     * Converts FlatDTO to JPA ENTITY
+     * Converts DTO to JPA ENTITY
      */
-    protected ENTITY dtoToEntity(FLAT_DTO dto) {
+    protected ENTITY dtoToEntity(DTO dto) {
         return mapper.map(dto, entityClass);
     }
 
     /**
-     * Converts JPA ENTITY to DeepDTO
+     * Converts JPA ENTITY to DTO
      */
     @Transactional(readOnly = true)
-    protected DEEP_DTO entityToDto(ENTITY entity) {
-        return mapper.map(entity, deepDtoClass);
+    protected DTO entityToDto(ENTITY entity) {
+        return mapper.map(entity, dtoClass);
     }
 
     /**
-     * Converts an Optional JPA ENTITY to DeepDTO
+     * Converts an Optional JPA ENTITY to DTO
      */
     @Transactional(readOnly = true)
-    protected DEEP_DTO entityToDto(Optional<ENTITY> optionalEntity) {
+    protected DTO entityToDto(Optional<ENTITY> optionalEntity) {
         return optionalEntity.map(this::entityToDto).orElse(null);
     }
 
     /**
-     * Converts a collection of JPA ENTITIES to a list of DeepDTO
+     * Converts a collection of JPA ENTITIES to a list of DTO
      */
     @Transactional(readOnly = true)
-    protected List<DEEP_DTO> entityListToDtoList(Iterable<ENTITY> entities) {
+    protected List<DTO> entityListToDtoList(Iterable<ENTITY> entities) {
         return StreamSupport.stream(entities.spliterator(), false)
                 .map(this::entityToDto)
                 .collect(Collectors.toList());

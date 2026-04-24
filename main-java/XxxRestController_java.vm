@@ -28,8 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ${ROOT_PKG}.rest.dto.flat.${entity.name}DTOFlat;
-import ${ROOT_PKG}.rest.dto.deep.${entity.name}DTODeep;
+import ${ROOT_PKG}.rest.dto.${dtoClass};
 import ${ROOT_PKG}.rest.services.${serviceClass};
 
 ##-------------------------------------------------
@@ -38,8 +37,7 @@ import ${ROOT_PKG}.rest.services.${serviceClass};
 #set( $controllerName = "${entity.name}RestController" )
 #set( $collectionName = $entity.tagValue("CollectionName", $fn.toLowerCase($entity.name) ) )
 #set( $uriPath = "${REST_API_ROOT}/${collectionName}" )
-#set( $flatDtoInstance = "$fn.uncapitalize($entity.name)DTOFlat" )
-#set( $deepDtoInstance = "$fn.uncapitalize($entity.name)DTODeep" )
+#set( $dtoInstance = "$fn.uncapitalize($entity.name)DTO" )
 #set( $ID_ARGS = $fn.argumentsList($entity.keyAttributes) )
 #set($keyAttribNames = [])
 #set($keyAttribWithPathParam = [])
@@ -60,11 +58,11 @@ public class ${controllerName} {
     /**
      * Get ALL
      *
-     * @return 200 con lista de DTODeep
+     * @return 200 con lista de DTO
      */
     @GetMapping("")
-    public ResponseEntity<List<${entity.name}DTODeep>> findAll() {
-        List<${entity.name}DTODeep> list = service.findAll();
+    public ResponseEntity<List<${dtoClass}>> findAll() {
+        List<${dtoClass}> list = service.findAll();
         return ResponseEntity.ok(list); // 200 OK
     }
 
@@ -74,13 +72,13 @@ public class ${controllerName} {
 #foreach( $attribute in $entity.keyAttributes )
      * @param $attribute.name
 #end
-     * @return 200 con DTODeep o 404 si no existe
+     * @return 200 con DTO o 404 si no existe
      */
     @GetMapping("${REST_PATH_FOR_ID}")
-    public ResponseEntity<${entity.name}DTODeep> findById($REST_PARAM_FOR_ID) {
-        ${entity.name}DTODeep ${deepDtoInstance} = service.findById(${ID_ARGS});
-        if ( ${deepDtoInstance} != null ) {
-            return ResponseEntity.ok(${deepDtoInstance}); // 200 OK
+    public ResponseEntity<${dtoClass}> findById($REST_PARAM_FOR_ID) {
+        ${dtoClass} ${dtoInstance} = service.findById(${ID_ARGS});
+        if ( ${dtoInstance} != null ) {
+            return ResponseEntity.ok(${dtoInstance}); // 200 OK
         } else {
             return ResponseEntity.notFound().build(); // 404 Not found
         }
@@ -89,17 +87,17 @@ public class ${controllerName} {
     /**
      * Create
      *
-     * @param ${flatDtoInstance}
+     * @param ${dtoInstance}
      * @return 201 creado o 409 si ya existe
      */
     @PostMapping("")
-    public ResponseEntity<${entity.name}DTODeep> create(@RequestBody ${entity.name}DTOFlat ${flatDtoInstance}) {
+    public ResponseEntity<${dtoClass}> create(@RequestBody ${dtoClass} ${dtoInstance}) {
 #if ($entity.hasAutoIncrementedKey())
-        ${entity.name}DTODeep created = service.create(${flatDtoInstance});
+        ${dtoClass} created = service.create(${dtoInstance});
         return ResponseEntity.status(HttpStatus.CREATED).body(created); // 201 Created
 #else
         try {
-            ${entity.name}DTODeep created = service.create(${flatDtoInstance});
+            ${dtoClass} created = service.create(${dtoInstance});
             return ResponseEntity.status(HttpStatus.CREATED).body(created); // 201 Created
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
@@ -113,13 +111,13 @@ public class ${controllerName} {
 #foreach( $attribute in $entity.keyAttributes )
      * @param $attribute.name
 #end
-     * @param ${flatDtoInstance}
-     * @return 200 con DTODeep actualizado o 404 si no existe
+     * @param ${dtoInstance}
+     * @return 200 con DTO actualizado o 404 si no existe
      */
     @PutMapping("${REST_PATH_FOR_ID}")
-    public ResponseEntity<${entity.name}DTODeep> update($REST_PARAM_FOR_ID, @RequestBody ${entity.name}DTOFlat ${flatDtoInstance}) {
+    public ResponseEntity<${dtoClass}> update($REST_PARAM_FOR_ID, @RequestBody ${dtoClass} ${dtoInstance}) {
         try {
-            ${entity.name}DTODeep updated = service.update(${ID_ARGS}, ${flatDtoInstance});
+            ${dtoClass} updated = service.update(${ID_ARGS}, ${dtoInstance});
             return ResponseEntity.ok(updated); // 200 OK
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build(); // 404 Not found
