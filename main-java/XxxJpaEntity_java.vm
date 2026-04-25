@@ -60,7 +60,7 @@ import $import;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ${entity.name} implements Serializable {
+public class ${jpaEntityClass} implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
