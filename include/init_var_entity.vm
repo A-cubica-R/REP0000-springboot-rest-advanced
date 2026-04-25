@@ -1,7 +1,7 @@
 ##
-#set($jpaEntityClass  = "${entity.name}" )
+#set($jpaEntityClass  = "${entity.name}Entity" )
 #if ( $entity.hasCompositePrimaryKey() )
-#set($jpaEntityIdClass= "${entity.name}Id" )
+#set($jpaEntityIdClass= "${entity.name}EntityId" )
 #else
 #set($jpaEntityIdClass= $entity.keyAttribute.wrapperType )
 #end
