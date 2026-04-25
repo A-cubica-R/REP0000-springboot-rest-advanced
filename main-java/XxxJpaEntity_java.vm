@@ -43,6 +43,9 @@ import lombok.Setter;
 import $import;
 #end
 
+#macro( jpaType $link )
+$link.formattedFieldType(10).replace($link.targetEntitySimpleType, "${link.targetEntitySimpleType}Entity")#end
+
 /**
  * JPA entity class for "${entity.name}"
  *
@@ -89,7 +92,7 @@ $jpa.linkAnnotations(4, $link, $entity.attributes)
 ##--- Just @JoinColumn(s) annotation(s)
 ## $jpa.linkJoinAnnotation(4, $link) 
 ## $jpa.linkJoinAnnotation(4, $link, $entity.attributes)
-    private ${link.formattedFieldType(10)} $link.fieldName ; 
+    private #jpaType($link) $link.fieldName ; 
 
 #end
 #end
