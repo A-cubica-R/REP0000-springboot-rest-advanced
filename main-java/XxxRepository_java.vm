@@ -47,7 +47,7 @@ import $import;
  *
  */
 @Repository
-public interface ${$repositoryClass} extends JpaRepository<${jpaEntityClass}, ${jpaEntityIdClass}> {
+public interface ${repositoryClass} extends JpaRepository<${jpaEntityClass}, ${jpaEntityIdClass}> {
 
 	// Insert specific finders here 
 
