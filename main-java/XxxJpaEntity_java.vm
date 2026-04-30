@@ -70,7 +70,7 @@ public class ${jpaEntityClass} implements Serializable {
     //--- PRIMARY KEY 
 #foreach( $attribute in $entity.keyAttributes )
 $jpa.fieldAnnotations(4, $attribute)
-    private $attribute.formattedType(10) $attribute.name #if($attribute.hasInitialValue())= ${attribute.initialValue} #end;
+    private $attribute.wrapperType $attribute.name #if($attribute.hasInitialValue())= ${attribute.initialValue} #end;
 
 #end
     //--- OTHER DATA FIELDS 

@@ -43,7 +43,7 @@ public class ${serviceClass} extends GenericService<${jpaEntityClass}, ${dtoClas
     }
 
     @Transactional(readOnly = true)
-    public ${dtoClass} findById(${entity.keyAttribute.type} ${entity.keyAttribute.name}) {
+    public ${dtoClass} findById(${entity.keyAttribute.wrapperType} ${entity.keyAttribute.name}) {
         return entityToDto(repository.findById(${entity.keyAttribute.name}));
     }
 
@@ -58,14 +58,14 @@ public class ${serviceClass} extends GenericService<${jpaEntityClass}, ${dtoClas
 #end
     }
 
-    public ${dtoClass} update(${entity.keyAttribute.type} ${entity.keyAttribute.name}, ${dtoClass} dto) {
+    public ${dtoClass} update(${entity.keyAttribute.wrapperType} ${entity.keyAttribute.name}, ${dtoClass} dto) {
         repository.findById(${entity.keyAttribute.name})
                 .orElseThrow(() -> new RuntimeException("${entity.name} no encontrado con id: " + ${entity.keyAttribute.name}));
         dto.${entity.keyAttribute.setter}(${entity.keyAttribute.name});
         return entityToDto(repository.save(dtoToEntity(dto)));
     }
 
-    public void deleteById(${entity.keyAttribute.type} ${entity.keyAttribute.name}) {
+    public void deleteById(${entity.keyAttribute.wrapperType} ${entity.keyAttribute.name}) {
         repository.findById(${entity.keyAttribute.name})
                 .orElseThrow(() -> new RuntimeException("${entity.name} no encontrado con id: " + ${entity.keyAttribute.name}));
         repository.deleteById(${entity.keyAttribute.name});

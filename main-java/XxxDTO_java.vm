@@ -35,7 +35,7 @@ public class ${dtoClass} implements Serializable {
 
     //--- PRIMARY KEY 
 #foreach( $attribute in $entity.keyAttributes )
-    private $attribute.type $attribute.name #if($attribute.hasInitialValue())= ${attribute.initialValue} #end;
+    private $attribute.wrapperType $attribute.name #if($attribute.hasInitialValue())= ${attribute.initialValue} #end;
 #end
     //--- OTHER DATA FIELDS 
 #foreach( $attribute in $entity.nonKeyAttributes )

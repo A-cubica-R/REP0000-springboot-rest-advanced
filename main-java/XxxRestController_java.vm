@@ -43,7 +43,7 @@ import ${ROOT_PKG}.rest.services.${serviceClass};
 #set($keyAttribWithPathParam = [])
 #foreach( $attribute in $entity.keyAttributes )
 #set( $_ = $keyAttribNames.add($attribute.name) )
-#set( $_ = $keyAttribWithPathParam.add("@PathVariable ${attribute.type} ${attribute.name}") )
+#set( $_ = $keyAttribWithPathParam.add("@PathVariable ${attribute.wrapperType} ${attribute.name}") )
 #end
 #set($REST_PATH_FOR_ID  = "/" + $fn.joinWithPrefixSuffix(${keyAttribNames}, "/", "{", "}") )
 #set($REST_PARAM_FOR_ID = $fn.join($keyAttribWithPathParam, ", ") )
