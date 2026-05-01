@@ -13,9 +13,11 @@ $link.fieldType.replace($link.targetEntitySimpleType, "${link.targetEntitySimple
 package ${target.javaPackageFromFolder(${SRC})};
 
 import java.io.Serializable;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 #foreach( $import in $java.imports($entity) )
 import $import;
 #end
@@ -28,7 +30,9 @@ import $import;
  */
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class ${dtoClass} implements Serializable {
 
     private static final long serialVersionUID = 1L;
